@@ -1,5 +1,6 @@
 import { CacheStore } from "@/data/protocols/cache"
-import { SavePurchases } from "@/domain"
+import { mockPurchases } from "@/data/tests"
+import { SavePurchases } from "@/domain/usecases"
 import { LocalSavePurchases } from "./local-save-purchases"
 
 
@@ -34,22 +35,7 @@ type SutTypes = {
   cacheStore: CacheStoreSpy
 }
 
-const mockPurchases = (): SavePurchases.Params[] => [{
-  id:'1',
-  date: new Date(),
-  value: 50
-},
-{
-  id:'2',
-  date: new Date(),
-  value: 67
-},
-{
-  id:'3',
-  date: new Date(),
-  value: 34
-},
-]
+
 
 const makeSut = (): SutTypes => {
   const cacheStore = new CacheStoreSpy()
