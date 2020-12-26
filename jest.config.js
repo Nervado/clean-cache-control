@@ -1,6 +1,6 @@
 module.exports = {
-  roots: ["<rootDir/scr"],
-  testEnviroment: "/node",
+  roots: ["<rootDir>/src"],
+  testEnvironment: "node",
   transform: {
     ".+\\.ts$": "ts-jest",
   },

@@ -5,6 +5,9 @@
   "repository": "https://github.com/Nervado/clean-cache-control.git",
   "author": "Nervado <evandroabreudeoliveira@gmail.com>",
   "license": "MIT",
+  "scripts": {
+   "test": "jest --no-cache --watchAll"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.19",
     "@types/node": "^14.14.16",
