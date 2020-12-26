@@ -1,4 +1,4 @@
-import { CacheStore } from "@.data/protocols/cache";
+import { CacheStore } from "@/data/protocols/cache";
 
 
 export class LocalSavePurchases {
@@ -6,5 +6,6 @@ export class LocalSavePurchases {
 
   async save (): Promise<void> {
     this.cacheStore.delete('purchases');
+    this.cacheStore.insert('purchases');
   }
 }
