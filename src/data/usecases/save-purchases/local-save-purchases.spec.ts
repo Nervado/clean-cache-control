@@ -1,21 +1,14 @@
-class LocalSavePurchases {
-  constructor(private readonly cacheStore: CacheStore){}
+import { CacheStore } from "@.data/protocols/cache"
+import { LocalSavePurchases } from "./local-save-purchases"
 
-  async save (): Promise<void> {
-    this.cacheStore.delete('purchases');
-  }
-}
-
-interface CacheStore {
-  delete: (key:string) => void
-
-}
 
 class CacheStoreSpy implements CacheStore {
   deleteCallsCount = 0
+  insertCallsCount = 0
   key = 'purchases'
   delete (key:string): void {
      this.deleteCallsCount++
+     this.key = key
   }
 }
 
@@ -43,12 +36,20 @@ describe('LocalSavePurchase', () => {
     const { cacheStore, sut } = makeSut()    
     await sut.save()
     expect(cacheStore.deleteCallsCount).toBe(1)
-    }) 
+  }) 
 
   test('Should call delete with correct key', async () => {
-      const { cacheStore, sut } = makeSut()    
-      await sut.save()
-      expect(cacheStore.key).toBe('purchases')
-      })  
+    const { cacheStore, sut } = makeSut()    
+    await sut.save()
+    expect(cacheStore.key).toBe('purchases')
+  })  
+
+  test('Should not insert new Cache if delete fails', async () => {
+    const { cacheStore, sut } = makeSut()    
+    jest.spyOn(cacheStore, 'delete').mockImplementation( () => { throw new Error()})
+    const promise =  sut.save()
+    expect(cacheStore.insertCallsCount).toBe(0)
+    expect(promise).rejects.toThrow()
+  })  
 });
 
