@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",   
+    "rootDir": "src",                      /* Base directory to resolve non-absolute module names. */
+    "paths": {
+      "@.*":["*"]
+    },                         
+  }
+}
