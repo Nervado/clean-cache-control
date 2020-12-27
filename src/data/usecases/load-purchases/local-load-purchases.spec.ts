@@ -67,5 +67,22 @@ describe('LocalSavePurchase', () => {
     expect(cacheStore.deleteKey).toBe('purchases') 
     expect(purchases).toEqual([])      
   }) 
+
+  test('Should return a list of purchases if cache is 3 days old', async ()=> {
+    const currentDate = new Date()
+    const timestamp = new Date(currentDate)
+    timestamp.setDate(timestamp.getDate() - 3)
+    // timestamp.setSeconds(timestamp.getSeconds() - 1)
+    const { cacheStore , sut} = makeSut(currentDate)       
+    cacheStore.fetchResult = {
+      timestamp: timestamp,
+      value: mockPurchases()
+    }
+    const purchases = await sut.loadAll()
+    expect(cacheStore.messages).toEqual([CacheStoreSpy.Message.fetch, CacheStoreSpy.Message.delete])  
+    expect(cacheStore.fetchKey).toBe('purchases') 
+    expect(cacheStore.deleteKey).toBe('purchases') 
+    expect(purchases).toEqual([])      
+  }) 
 });
 
