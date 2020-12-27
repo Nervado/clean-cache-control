@@ -6,11 +6,17 @@ export class CacheStoreSpy implements CacheStore {
   messages: CacheStoreSpy.Message[] = []  
   insertKey: string 
   deleteKey: string 
+  fetchKey: string
   insertValues: Array<SavePurchases.Params> = []
   
   delete (key:string): void {    
      this.deleteKey = key
      this.messages.push(CacheStoreSpy.Message.delete)
+  }
+
+  fetch(key: string) {
+    this.messages.push(CacheStoreSpy.Message.fetch)
+    this.fetchKey = key
   }
 
   insert(key:string, value: any):void {   
@@ -37,6 +43,7 @@ export class CacheStoreSpy implements CacheStore {
 export namespace CacheStoreSpy {
   export enum Message {
     delete,
-    insert
+    insert,
+    fetch
   }
 }
