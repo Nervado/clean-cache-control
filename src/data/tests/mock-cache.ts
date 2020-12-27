@@ -1,5 +1,5 @@
 import { CacheStore } from '@/data/protocols/cache/cache-store'
-import { SavePurchases } from '@/domain/usecases'
+import { LoadPurchases, SavePurchases } from '@/domain/usecases'
 
 export class CacheStoreSpy implements CacheStore {
 
@@ -8,15 +8,17 @@ export class CacheStoreSpy implements CacheStore {
   deleteKey: string 
   fetchKey: string
   insertValues: Array<SavePurchases.Params> = []
+  fetchResult: any
   
   delete (key:string): void {    
      this.deleteKey = key
      this.messages.push(CacheStoreSpy.Message.delete)
   }
-
-  fetch(key: string) {
+b
+  fetch(key: string): any {
     this.messages.push(CacheStoreSpy.Message.fetch)
     this.fetchKey = key
+    return this.fetchResult
   }
 
   insert(key:string, value: any):void {   
@@ -38,6 +40,11 @@ export class CacheStoreSpy implements CacheStore {
 
   simulateInsertError(): void {
     jest.spyOn(CacheStoreSpy.prototype, 'insert').mockImplementationOnce(()=> { this.messages.push(CacheStoreSpy.Message.insert);throw new Error(); })
+  }
+
+  simulateFetchError(): void {
+    jest.spyOn(CacheStoreSpy.prototype, 'fetch').mockImplementationOnce(()=> { this.messages.push(CacheStoreSpy.Message.fetch);throw new Error();})
+  
   }
 }
 export namespace CacheStoreSpy {
